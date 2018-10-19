@@ -95,7 +95,7 @@
 				},
 				getJson: function(id) {
 					var self = this;
-					axios.get('http://123.206.45.111:8080/xytuan/api/home/topinfo?id=' + id)
+					axios.get('https://www.xueyituanchian.cn/xytuan/api/home/topinfo?id=' + id)
 						.then(function(response) {
 							self.info = response.data["info"]
 							console.log(response)
