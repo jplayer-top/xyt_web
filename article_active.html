@@ -103,11 +103,7 @@
 				},
 				getJson: function(id) {
 					var self = this;
-<<<<<<< HEAD
 					axios.get('https://www.xueyituanchina.cn/xytuan/api/home/topinfo?id=' + id)
-=======
-					axios.get('https://www.xueyituanchian.cn/xytuan/api/home/topinfo?id=' + id)
->>>>>>> 177b5277e8ae5fbd264a15b3f46c8f4671976531
 						.then(function(response) {
 							self.info = response.data["info"]
 							console.log(response)
