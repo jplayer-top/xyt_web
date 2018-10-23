@@ -2,6 +2,7 @@
 <html>
 	<!-- http://doc.vue-js.com/ -->
 	<!-- https://element.faas.ele.me/#/zh-CN/component/layout -->
+
 	<head>
 		<meta http-equiv="content-type" content="text/html" charset="utf-8">
 		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,59 +10,99 @@
 	</head>
 
 	<body>
-		<div id="app" v-loading="loading" style="width: 100%">
-			<el-row>
-				<el-col :span="24">
-					<div>
-						<span class="title" v-text='info["title"]'></span>
-					</div>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<div class="div_name_time">
-						<img v-bind:src='spAvator' class="img_border">
-						<div style=" float: left;margin-top: 5px;margin-left: 10px;">
-							<span class="text_middle" v-text='info["puber_name"]'></span>
-							<div>
-								<span class="text_small" style="margin-top: 5px;" v-text='info["ct"]' /></span>
-								<span class="text_small" v-if="visible" />&nbsp;&nbsp;&nbsp;&nbsp;阅读：{{info["visitor"]}}</span>
+		<div id="app">
+			<div id="nav" :if="visiable">
+				<center>
+					<el-button icon="el-icon-download" type="primary" round style="width: 100%;">下载学艺团App</el-button>
+
+				</center>
+			</div>
+			<div v-loading="loading" style="margin-top: 50px;">
+				<el-row>
+					<el-col :span="24">
+						<el-carousel height="200px">
+							<el-carousel-item v-for="item in goods['goods_thumb_img']" :key="item">
+								<img v-bind:src="item" style="width: 100%;height:200px">
+							</el-carousel-item>
+						</el-carousel>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="24" style="margin-left:15px;margin-top: 15px;">
+						<div>
+							<span class="title" v-text='goods["goods_title"]'></span>
+							<div style=" margin-top: 5px;color: #666666;" v-text='goods["goods_desc"]'></div>
+						</div>
+					</el-col>
+				</el-row>
+				<el-row style="margin-top: 10px;">
+					<el-col :span="24">
+						<span class="money" style="margin-left: 15px;font-size: 12px;">￥</span>
+						<span class="money" v-text="goods['goodsBestPriceStr']"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="color: #999999;font-size: 14px;" v-text="'门市价: '+goods['goodsOrgPriceStr']"></span>
+						<span style="float: right;margin-right: 15px; font-size: 23px;font-style: italic; color: #EC6941;" v-text='goods["score"]+" 分"'></span>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="20" style="margin-top: 10px;">
+						<img src="img/vip.png" class="icon" v-if="visiable">
+						<span style="margin-left: 5px; float: left;color: #666666;font-size: 12xp;" :if="visiable">会员：可免费试克，领取奖品</span>
+					</el-col>
+					<el-col :span="4">
+						<div style="margin-top: 5px; color: #999999;font-size: 12px;" v-text="'已售: '+goods['sales']">
+
+						</div>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="24" style="margin-top:1px;">
+						<img src="img/gift.png" class="icon" v-if="visiable">
+						<span style="margin-left: 5px;margin-top: 1px; float: left;color: #666666;font-size: 12xp;" :if="visiable" v-text="goods['goods_subtitle']"></span>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="24" style="margin-top:20px;margin-left: 15px;">
+						<div style="color: #666666; font-size: 18px;font-weight: bold;" @click="phoneCall()">
+							商家信息
+						</div>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span="24" style="margin-top:20px;margin-left: 15px;">
+
+						<div style="float: left;">
+							<div v-text="shop['sp_name']" style="font-size: 13px;" class="title">
+
+							</div>
+							<div v-text="shop['addr']" style="font-size: 12px; margin-top: 5px;color: #999999;">
+
+							</div>
+							<div v-text="'距离: '+shop['dist']" style="font-size: 12px; margin-top: 5px;color: #999999;">
+
 							</div>
 						</div>
-					</div>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<div class="desc">
-						<span class="text_middle" v-text='info["description"]'></span>
-					</div>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<div id="app-4">
-							<div v-for="todo in info['posterList']">
-								<img class="big_img" v-bind:src="todo" />
+						<img @click="phoneCall()" src="img/shop_call.png" style="width: 30px;height: 30px;margin-top: 15px;float: right;margin-right: 20px;">
+
+						<div style="background: #efefef;width: 2px;height: 40px; float: right; margin-top: 10px;margin-right: 15px;" :if="visiable">
+
+						</div>
+					</el-col>
+
+				</el-row>
+				<el-row>
+					<el-col :span="24">
+						<div id="app-4">
+							<div v-for="item in goods['goods_desc_img']">
+								<img class="big_img" v-bind:src="item" />
 							</div>
-					</div>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<div class="mid">
-						<p v-text='spName'></p>
-						<el-dialog title="提示" :visible.sync="dialogVisible" width="70%">
-							<span>文章收藏成功</span>
-							<p>
-								<el-button @click="dialogVisible = false">确 定</el-button>
-							</p>
-						</el-dialog>
-						<el-button size="mini" @click="collection()" type="primary" icon="el-icon-star-off" v-if="visible">收藏</el-button>
-					</div>
-				</el-col>
-			</el-row>
+						</div>
+					</el-col>
+				</el-row>
+
+			</div>
+
 		</div>
+
 	</body>
 	<!-- import Vue before Element -->
 	<script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -73,14 +114,12 @@
 			el: '#app',
 			data: function() {
 				return {
-					visible: false,
-					title: "学艺团官方活动",
-					description: "",
-					dialogVisible: false,
-					spAvator: "",
-					spName: "学艺团",
+					id: "",
+					lnglat: "",
+					visiable: false,
 					loading: true,
-					info: {
+					goods: {},
+					shop: {
 
 					}
 				}
@@ -99,28 +138,29 @@
 							theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
 						}
 					}
-					this.getJson(theRequest["id"]);
+					this.id = theRequest["id"]
+					if (theRequest["lnglat"] != null) {
+						this.lnglat = theRequest["lnglat"]
+					} else {
+						this.lnglat = "116.40717000000001,39.906665225714555"
+					}
+					this.getJson(this.id, this.lnglat);
 				},
-				getJson: function(id) {
+				phoneCall: function() {
+					window.location.href = "tel:" + this.shop["phone"]
+				},
+				getJson: function(id, lnglat) {
 					var self = this;
-					axios.get('https://www.xueyituanchina.cn/xytuan/api/home/topinfo?id=' + id)
+
+					let url = "https://www.xueyituanchina.cn/xytuan/api/home/goodsinfo?id=" + id + "&lnglat=" + lnglat
+					axios.get(url)
 						.then(function(response) {
-							self.info = response.data["info"]
-							console.log(response)
 							self.loading = false
-							self.visible = true
-							self.spAvator = response.data["spAvator"]
-							self.spName = response.data["spName"]
-						})
-						.catch(function(error) {
-							console.log(error);
-						});
-				},
-				collection: function() {
-					axios.get('https://www.xueyituanchina.cn/xytuan/api/my/fav?favId=' + this.info["id"] + "&favType=3")
-						.then(function(response) {
-							console.log(response)
-							this.dialogVisible = true;
+							self.visiable = true
+							self.goods = response.data.goods
+							self.shop = response.data.shop
+							console.log(self.shop)
+							console.log(self.goods)
 						})
 						.catch(function(error) {
 							console.log(error);
@@ -131,10 +171,30 @@
 	</script>
 
 	<style>
-		.mid {
-			text-align: center;
-			font-size: 15px;
-			margin: 10px;
+		#nav {
+			width: 100%;
+			height: 60px;
+			position: fixed;
+			z-index: 999;
+			left: 0;
+			top: 0%;
+		}
+
+		.icon {
+			width: 20px;
+			height: 20px;
+			float: left;
+			margin-left: 15px;
+		}
+
+		.money {
+			font-size: 20px;
+			color: #1ccece;
+			font-weight: bold;
+		}
+
+		.title {
+			font-size: 20px;
 			font-weight: bold;
 		}
 
@@ -142,46 +202,5 @@
 			width: 100%;
 			margin-top: 10px;
 			height: 200px;
-		}
-
-		.desc {
-			font-size: 14px;
-			line-height: 22px;
-			margin-left: 10px;
-			margin-right: 10px;
-			text-indent: 1em;
-			letter-spacing: 2px;
-		}
-
-		.div_name_time {
-			margin: 10px;
-			float: left;
-		}
-
-		.title {
-			font-size: 20px;
-			margin: 10px;
-			font-weight: bold;
-		}
-
-		.btest {
-			background: burlywood;
-		}
-
-		.text_small {
-			font-size: 12px;
-			color: #999999;
-		}
-
-		.text_middle {
-			font-size: 14px;
-			color: #666666;
-		}
-
-		.img_border {
-			float: left;
-			width: 50px;
-			height: 50px;
-			border-radius: 90px;
 		}
 	</style>
