@@ -1,206 +1,206 @@
 <!DOCTYPE html>
 <html>
-	<!-- http://doc.vue-js.com/ -->
-	<!-- https://element.faas.ele.me/#/zh-CN/component/layout -->
+<!-- http://doc.vue-js.com/ -->
+<!-- https://element.faas.ele.me/#/zh-CN/component/layout -->
 
-	<head>
-		<meta http-equiv="content-type" content="text/html" charset="utf-8">
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-	</head>
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
 
-	<body>
-		<div id="app" style="background: white;">
-			<div id="nav" :if="visiable">
-				<center>
-					<el-button icon="el-icon-download" type="primary" round style="width: 100%;">下载学艺团App</el-button>
+<body>
+    <div id="app" style="background: white;">
+        <div id="nav" :if="visiable">
+            <center>
+                <el-button icon="el-icon-download" type="primary" round style="width: 100%;">下载学艺团App</el-button>
 
-				</center>
-			</div>
-			<div v-loading="loading" style="margin-top: 50px;">
-				<el-row>
-					<el-col :span="24">
-						<el-carousel height="200px">
-							<el-carousel-item v-for="item in goods['goods_thumb_img']" :key="item">
-								<img v-bind:src="item" style="width: 100%;height:200px">
-							</el-carousel-item>
-						</el-carousel>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="24" style="margin-left:15px;margin-top: 15px;">
-						<div>
-							<span class="title" v-text='goods["goods_title"]'></span>
-							<div style=" margin-top: 5px;color: #666666;" v-text='goods["goods_desc"]'></div>
-						</div>
-					</el-col>
-				</el-row>
-				<el-row style="margin-top: 10px;">
-					<el-col :span="24">
-						<span class="money" style="margin-left: 15px;font-size: 12px;">￥</span>
-						<span class="money" v-text="goods['goodsBestPriceStr']"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-						<span style="color: #999999;font-size: 14px;" v-text="'门市价: '+goods['goodsOrgPriceStr']"></span>
-						<span style="float: right;margin-right: 15px; font-size: 23px;font-style: italic; color: #EC6941;" v-text='goods["score"]+" 分"'></span>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="20" style="margin-top: 10px;">
-						<img src="img/vip.png" class="icon" v-if="visiable">
-						<span style="margin-left: 5px; float: left;color: #666666;font-size: 12xp;" :if="visiable">会员：可免费试克，领取奖品</span>
-					</el-col>
-					<el-col :span="4">
-						<div style="margin-top: 5px; color: #999999;font-size: 12px;" v-text="'已售: '+goods['sales']">
+            </center>
+        </div>
+        <div v-loading="loading" style="margin-top: 50px;">
+            <el-row>
+                <el-col :span="24">
+                    <el-carousel height="200px">
+                        <el-carousel-item v-for="item in goods['goods_thumb_img']" :key="item">
+                            <img v-bind:src="item" style="width: 100%;height:200px">
+                        </el-carousel-item>
+                    </el-carousel>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24" style="margin-left:15px;margin-top: 15px;">
+                    <div>
+                        <span class="title" v-text='goods["goods_title"]'></span>
+                        <div style=" margin-top: 5px;color: #666666;" v-text='goods["goods_desc"]'></div>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row style="margin-top: 10px;">
+                <el-col :span="24">
+                    <span class="money" style="margin-left: 15px;font-size: 12px;">￥</span>
+                    <span class="money" v-text="goods['goodsBestPriceStr']"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span style="color: #999999;font-size: 14px;" v-text="'门市价: '+goods['goodsOrgPriceStr']"></span>
+                    <span style="float: right;margin-right: 15px; font-size: 23px;font-style: italic; color: #EC6941;" v-text='goods["score"]+" 分"'></span>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="20" style="margin-top: 10px;">
+                    <img src="img/vip.png" class="icon" v-if="visiable">
+                    <span style="margin-left: 5px; float: left;color: #666666;font-size: 12xp;" :if="visiable">会员：可免费试克，领取奖品</span>
+                </el-col>
+                <el-col :span="4">
+                    <div style="margin-top: 5px; color: #999999;font-size: 12px;" v-text="'已售: '+goods['sales']">
 
-						</div>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="24" style="margin-top:1px;">
-						<img src="img/gift.png" class="icon" v-if="visiable">
-						<span style="margin-left: 5px;margin-top: 1px; float: left;color: #666666;font-size: 12xp;" :if="visiable" v-text="goods['goods_subtitle']"></span>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="24" style="margin-top:20px;margin-left: 15px;">
-						<div style="color: #666666; font-size: 18px;font-weight: bold;" @click="phoneCall()">
-							商家信息
-						</div>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="24" style="margin-top:20px;margin-left: 15px;">
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24" style="margin-top:1px;">
+                    <img src="img/gift.png" class="icon" v-if="visiable">
+                    <span style="margin-left: 5px;margin-top: 1px; float: left;color: #666666;font-size: 12xp;" :if="visiable" v-text="goods['goods_subtitle']"></span>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24" style="margin-top:20px;margin-left: 15px;">
+                    <div style="color: #666666; font-size: 18px;font-weight: bold;" @click="phoneCall()">
+                        商家信息
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="24" style="margin-top:20px;margin-left: 15px;">
 
-						<div style="float: left;">
-							<div v-text="shop['sp_name']" style="font-size: 13px;" class="title">
+                    <div style="float: left;">
+                        <div v-text="shop['sp_name']" style="font-size: 13px;" class="title">
 
-							</div>
-							<div v-text="shop['addr']" style="font-size: 12px; margin-top: 5px;color: #999999;">
+                        </div>
+                        <div v-text="shop['addr']" style="font-size: 12px; margin-top: 5px;color: #999999;">
 
-							</div>
-							<div v-text="'距离: '+shop['dist']" style="font-size: 12px; margin-top: 5px;color: #999999;">
+                        </div>
+                        <div v-text="'距离: '+shop['dist']" style="font-size: 12px; margin-top: 5px;color: #999999;">
 
-							</div>
-						</div>
-						<img @click="phoneCall()" src="img/shop_call.png" style="width: 30px;height: 30px;margin-top: 15px;float: right;margin-right: 20px;">
+                        </div>
+                    </div>
+                    <img @click="phoneCall()" src="img/shop_call.png" style="width: 30px;height: 30px;margin-top: 15px;float: right;margin-right: 20px;">
 
-						<div style="background: #efefef;width: 2px;height: 40px; float: right; margin-top: 10px;margin-right: 15px;" :if="visiable">
+                    <div style="background: #efefef;width: 2px;height: 40px; float: right; margin-top: 10px;margin-right: 15px;" :if="visiable">
 
-						</div>
-					</el-col>
+                    </div>
+                </el-col>
 
-				</el-row>
-				<el-row>
-					<el-col :span="24">
-						<div id="app-4">
-							<div v-for="item in goods['goods_desc_img']">
-								<img class="big_img" v-bind:src="item" />
-							</div>
-						</div>
-					</el-col>
-				</el-row>
+            </el-row>
+            <el-row>
+                <el-col :span="24">
+                    <div id="app-4">
+                        <div v-for="item in goods['goods_desc_img']">
+                            <img class="big_img" v-bind:src="item" />
+                        </div>
+                    </div>
+                </el-col>
+            </el-row>
 
-			</div>
+        </div>
 
-		</div>
+    </div>
 
-	</body>
-	<!-- import Vue before Element -->
-	<script src="https://unpkg.com/vue/dist/vue.js"></script>
-	<!-- import JavaScript -->
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
-	<script>
-		new Vue({
-			el: '#app',
-			data: function() {
-				return {
-					id: "",
-					lnglat: "",
-					visiable: false,
-					loading: true,
-					goods: {},
-					shop: {
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                id: "",
+                lnglat: "",
+                visiable: false,
+                loading: true,
+                goods: {},
+                shop: {
 
-					}
-				}
-			},
-			created: function() {
-				this.GetRequest();
-			},
-			methods: {
-				GetRequest: function() {
-					var url = location.search;
-					var theRequest = new Object();
-					if (url.indexOf("?") != -1) {
-						var str = url.substr(1);
-						strs = str.split("&");
-						for (var i = 0; i < strs.length; i++) {
-							theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-						}
-					}
-					this.id = theRequest["id"]
-					if (theRequest["lnglat"] != null) {
-						this.lnglat = theRequest["lnglat"]
-					} else {
-						this.lnglat = "116.40717000000001,39.906665225714555"
-					}
-					this.getJson(this.id, this.lnglat);
-				},
-				phoneCall: function() {
-					window.location.href = "tel:" + this.shop["phone"]
-				},
-				getJson: function(id, lnglat) {
-					var self = this;
+                }
+            }
+        },
+        created: function() {
+            this.GetRequest();
+        },
+        methods: {
+            GetRequest: function() {
+                var url = location.search;
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    strs = str.split("&");
+                    for (var i = 0; i < strs.length; i++) {
+                        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                    }
+                }
+                this.id = theRequest["id"]
+                if (theRequest["lnglat"] != null) {
+                    this.lnglat = theRequest["lnglat"]
+                } else {
+                    this.lnglat = "116.40717000000001,39.906665225714555"
+                }
+                this.getJson(this.id, this.lnglat);
+            },
+            phoneCall: function() {
+                window.location.href = "tel:" + this.shop["phone"]
+            },
+            getJson: function(id, lnglat) {
+                var self = this;
 
-					let url = "https://www.xueyituanchina.cn/xytuan/api/home/goodsinfo?id=" + id + "&lnglat=" + lnglat
-					axios.get(url)
-						.then(function(response) {
-							self.loading = false
-							self.visiable = true
-							self.goods = response.data.goods
-							self.shop = response.data.shop
-							console.log(self.shop)
-							console.log(self.goods)
-						})
-						.catch(function(error) {
-							console.log(error);
-						});
-				}
-			}
-		})
-	</script>
+                let url = "https://www.xueyituanchina.cn/xytuan/api/home/goodsinfo?id=" + id + "&lnglat=" + lnglat
+                axios.get(url)
+                    .then(function(response) {
+                        self.loading = false
+                        self.visiable = true
+                        self.goods = response.data.goods
+                        self.shop = response.data.shop
+                        console.log(self.shop)
+                        console.log(self.goods)
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        }
+    })
+</script>
 
-	<style>
-		#nav {
-			width: 100%;
-			height: 60px;
-			position: fixed;
-			z-index: 999;
-			left: 0;
-			top: 0%;
-		}
-
-		.icon {
-			width: 20px;
-			height: 20px;
-			float: left;
-			margin-left: 15px;
-		}
-
-		.money {
-			font-size: 20px;
-			color: #1ccece;
-			font-weight: bold;
-		}
-
-		.title {
-			font-size: 20px;
-			font-weight: bold;
-		}
-
-		.big_img {
-			width: 100%;
-			margin-top: 10px;
-			height: 200px;
-		}
-	</style>
+<style>
+    #nav {
+        width: 100%;
+        height: 60px;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0%;
+    }
+    
+    .icon {
+        width: 20px;
+        height: 20px;
+        float: left;
+        margin-left: 15px;
+    }
+    
+    .money {
+        font-size: 20px;
+        color: #1ccece;
+        font-weight: bold;
+    }
+    
+    .title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    .big_img {
+        width: 100%;
+        margin-top: 10px;
+        height: 200px;
+    }
+</style>
