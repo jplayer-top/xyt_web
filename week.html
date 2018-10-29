@@ -1,175 +1,177 @@
 <!DOCTYPE html>
 <html>
-	<!-- http://doc.vue-js.com/ -->
-	<!-- https://element.faas.ele.me/#/zh-CN/component/layout -->
-	<head>
-		<meta http-equiv="content-type" content="text/html" charset="utf-8">
-		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-		<title>活动详情</title>
-	</head>
+<!-- http://doc.vue-js.com/ -->
+<!-- https://element.faas.ele.me/#/zh-CN/component/layout -->
 
-	<body>
-		<div id="app" v-loading="loading" style="width: 100%">
-			<el-row>
-				<el-col :span="24">
-					<div>
-						<span class="title" v-text='info["title"]'></span>
-					</div>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<div class="div_name_time">
-						<img v-bind:src='spAvator' class="img_border">
-						<div style=" float: left;margin-top: 5px;margin-left: 10px;">
-							<span class="text_middle" v-text='info["puber_name"]'></span>
-							<div>
-								<span class="text_small" style="margin-top: 5px;" v-text='info["ct"]' /></span>
-								<span class="text_small" v-if="visible" />&nbsp;&nbsp;&nbsp;&nbsp;阅读：{{info["visitor"]}}</span>
-							</div>
-						</div>
-					</div>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<div class="desc">
-						<span class="text_middle" v-text='info["description"]'></span>
-					</div>
-				</el-col>
-			</el-row>
-			<el-row>
-				<el-col :span="24">
-					<div id="app-4">
-							<div v-for="todo in info['posterList']">
-								<img class="big_img" v-bind:src="todo" />
-							</div>
-					</div>
-				</el-col>
-			</el-row>
-			
-		</div>
-	</body>
-	<!-- import Vue before Element -->
-	<script src="https://unpkg.com/vue/dist/vue.js"></script>
-	<!-- import JavaScript -->
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
-	<script>
-		new Vue({
-			el: '#app',
-			data: function() {
-				return {
-					visible: false,
-					title: "学艺团官方活动",
-					description: "",
-					dialogVisible: false,
-					spAvator: "",
-					spName: "学艺团",
-					loading: true,
-					info: {
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <title>活动详情</title>
+</head>
 
-					}
-				}
-			},
-			created: function() {
-				this.GetRequest();
-			},
-			methods: {
-				GetRequest: function() {
-					var url = location.search;
-					var theRequest = new Object();
-					if (url.indexOf("?") != -1) {
-						var str = url.substr(1);
-						strs = str.split("&");
-						for (var i = 0; i < strs.length; i++) {
-							theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
-						}
-					}
-					this.getJson(theRequest["id"]);
-				},
-				getJson: function(id) {
-					var self = this;
-					axios.get('https://www.xueyituanchina.cn/xytuan/api/home/weekinfo?id=' + id)
-						.then(function(response) {
-							self.info = response.data["info"]
-							console.log(response)
-							self.loading = false
-							self.visible = true
-							self.spAvator = response.data["spAvator"]
-							self.spName = response.data["spName"]
-						})
-						.catch(function(error) {
-							console.log(error);
-						});
-				},
-				collection: function() {
-					axios.get('https://www.xueyituanchina.cn/xytuan/api/my/fav?favId=' + this.info["id"] + "&favType=3")
-						.then(function(response) {
-							console.log(response)
-							this.dialogVisible = true;
-						})
-						.catch(function(error) {
-							console.log(error);
-						});
-				}
-			}
-		})
-	</script>
+<body>
+    <div id="app" v-loading="loading" style="width: 100%">
+        <el-row>
+            <el-col :span="24">
+                <div>
+                    <span class="title" v-text='info["title"]'></span>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <div class="div_name_time">
+                    <img v-bind:src='spAvator' class="img_border" v-if="visible">
+                    <div style=" float: left;margin-top: 5px;margin-left: 10px;">
+                        <span class="text_middle" v-text='info["puber_name"]'></span>
+                        <div>
+                            <span class="text_small" style="margin-top: 5px;" v-text='info["ct"]' /></span>
+                            <span class="text_small" v-if="visible" />&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span class="text_small" v-if="visible" v-text='"阅读 :"+info["visitor"]'></span>
+                        </div>
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <div class="desc">
+                    <span class="text_middle" v-text='info["description"]'></span>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24">
+                <div id="app-4">
+                    <div v-for="todo in info['posterList']">
+                        <img class="big_img" v-bind:src="todo" />
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
 
-	<style>
-		.mid {
-			text-align: center;
-			font-size: 15px;
-			margin: 10px;
-			font-weight: bold;
-		}
+    </div>
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false,
+                title: "学艺团官方活动",
+                description: "",
+                dialogVisible: false,
+                spAvator: "",
+                spName: "学艺团",
+                loading: true,
+                info: {
 
-		.big_img {
-			width: 100%;
-			margin-top: 10px;
-			height: 200px;
-		}
+                }
+            }
+        },
+        created: function() {
+            this.GetRequest();
+        },
+        methods: {
+            GetRequest: function() {
+                var url = location.search;
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    strs = str.split("&");
+                    for (var i = 0; i < strs.length; i++) {
+                        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                    }
+                }
+                this.getJson(theRequest["id"]);
+            },
+            getJson: function(id) {
+                var self = this;
+                axios.get('https://www.xueyituanchina.cn/xytuan/api/home/weekinfo?id=' + id)
+                    .then(function(response) {
+                        self.info = response.data["info"]
+                        console.log(response)
+                        self.loading = false
+                        self.visible = true
+                        self.spAvator = response.data["spAvator"]
+                        self.spName = response.data["spName"]
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            },
+            collection: function() {
+                axios.get('https://www.xueyituanchina.cn/xytuan/api/my/fav?favId=' + this.info["id"] + "&favType=3")
+                    .then(function(response) {
+                        console.log(response)
+                        this.dialogVisible = true;
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        }
+    })
+</script>
 
-		.desc {
-			font-size: 14px;
-			line-height: 22px;
-			margin-left: 10px;
-			margin-right: 10px;
-			text-indent: 1em;
-			letter-spacing: 2px;
-		}
-
-		.div_name_time {
-			margin: 10px;
-			float: left;
-		}
-
-		.title {
-			font-size: 20px;
-			margin: 10px;
-			font-weight: bold;
-		}
-
-		.btest {
-			background: burlywood;
-		}
-
-		.text_small {
-			font-size: 12px;
-			color: #999999;
-		}
-
-		.text_middle {
-			font-size: 14px;
-			color: #666666;
-		}
-
-		.img_border {
-			float: left;
-			width: 50px;
-			height: 50px;
-			border-radius: 90px;
-		}
-	</style>
+<style>
+    .mid {
+        text-align: center;
+        font-size: 15px;
+        margin: 10px;
+        font-weight: bold;
+    }
+    
+    .big_img {
+        width: 100%;
+        margin-top: 10px;
+        height: 200px;
+    }
+    
+    .desc {
+        font-size: 14px;
+        line-height: 22px;
+        margin-left: 10px;
+        margin-right: 10px;
+        text-indent: 1em;
+        letter-spacing: 2px;
+    }
+    
+    .div_name_time {
+        margin: 10px;
+        float: left;
+    }
+    
+    .title {
+        font-size: 20px;
+        margin: 10px;
+        font-weight: bold;
+    }
+    
+    .btest {
+        background: burlywood;
+    }
+    
+    .text_small {
+        font-size: 12px;
+        color: #999999;
+    }
+    
+    .text_middle {
+        font-size: 14px;
+        color: #666666;
+    }
+    
+    .img_border {
+        float: left;
+        width: 50px;
+        height: 50px;
+        border-radius: 90px;
+    }
+</style>
