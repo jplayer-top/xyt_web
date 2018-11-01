@@ -13,9 +13,18 @@
     <div id="app" style="background: white;">
         <div id="nav" v-if="visiable">
             <center>
-                <el-button icon="el-icon-download" type="primary" round style="width: 100%;">下载学艺团App</el-button>
+                <el-button @click="downloadapk" icon="el-icon-download" type="primary" round style="width: 100%;">
+					购买课程，请点此下载
+				</el-button>
             </center>
         </div>
+	<!-- 	<div id="nav1" v-if="visiable">
+			<center>
+				<el-button @click="downloadapk" icon="el-icon-download" type="primary" round style="width: 100%;">
+					下载学艺团App
+				</el-button>
+			</center>
+		</div> -->
         <div v-loading="loading" style="margin-top: 50px;">
             <el-row v-if="visiable">
                 <el-col :span="24">
@@ -115,7 +124,7 @@
             return {
                 vip: "img/vip.png",
                 gift: "img/gift.png",
-                vip_tip: "会员：可免费试克，领取奖品",
+                vip_tip: "会员：可免费试课，领取礼品",
                 money_tip: "￥",
                 id: "",
                 lnglat: "",
@@ -131,6 +140,9 @@
             this.GetRequest();
         },
         methods: {
+			downloadapk:function(){
+				window.open("http://xueyituan.oss-cn-beijing.aliyuncs.com/apk/app_android.apk")
+			},
             GetRequest: function() {
                 var url = location.search;
                 var theRequest = new Object();
@@ -180,14 +192,21 @@
     }
     
     #nav {
-        width: 100%;
+        width: 98%;
         height: 60px;
         position: fixed;
         z-index: 999;
-        left: 0;
+        left: 1%;
         top: 0%;
     }
-    
+    #nav1 {
+    	width: 80%;
+    	height: 60px;
+    	position: fixed;
+    	z-index: 999;
+		right: 10%;
+    	bottom: 0%;
+    }
     .icon {
         width: 20px;
         height: 20px;
