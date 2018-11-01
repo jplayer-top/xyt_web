@@ -50,26 +50,7 @@
                 </div>
             </el-col>
         </el-row>
-        <el-row>
-            <el-col :span="24">
-                <div class="mid">
-                    <p v-text='spName'></p>
-                    <el-dialog title="提示" :visible.sync="dialogVisible" width="70%" v-bind:style="{ visibility: isHiddle }">
-                        <span v-text="dialog_tip"></span>
-                        <p>
-                            <el-button @click="dialogVisible = false" v-text="sure"></el-button>
-                        </p>
-                    </el-dialog>
-                    <el-dialog title="提示" :visible.sync="dialogError" width="70%">
-                        <span v-text="dialog_error"></span>
-                        <p>
-                            <el-button @click="dialogError = false" v-text="sure"></el-button>
-                        </p>
-                    </el-dialog>
-                    <el-button size="mini" @click="collection()" type="primary" v-bind:icon="icon" v-if="cansave" v-text="save"></el-button>
-                </div>
-            </el-col>
-        </el-row>
+
     </div>
 </body>
 <!-- import Vue before Element -->
@@ -82,25 +63,16 @@
         el: '#app',
         data: function() {
             return {
-                cansave: false,
-                icon: "el-icon-star-off",
-                isHiddle: "hidden",
                 visible: false,
                 title: "学艺团官方活动",
                 description: "",
                 dialogVisible: false,
                 spAvator: "",
                 spName: "学艺团",
-                uid: "",
                 loading: true,
                 info: {
 
-                },
-                sure: "确定",
-                save: "收藏",
-                dialog_tip: "文章收藏成功",
-                dialog_error: "活动已过期",
-                dialogError: false
+                }
             }
         },
         created: function() {
@@ -118,39 +90,27 @@
                     }
                 }
                 this.getJson(theRequest["id"]);
-                this.uid = theRequest["uid"]
-
             },
             getJson: function(id) {
                 var self = this;
-                axios.get('https://www.xueyituanchina.cn/xytuan/api/activity/nearInfo?id=' + id)
+                axios.get('https://www.xueyituanchina.cn/xytuan/api/home/topinfo?id=' + id)
                     .then(function(response) {
-                        if (response.data["code"] == "000") {
-                            self.info = response.data["info"]
-                            console.log(response)
-                            self.loading = false
-                            self.visible = true
-                            self.spAvator = response.data["spAvator"]
-                            self.spName = response.data["spName"]
-                            if (self.uid != null) {
-                                self.cansave = true;
-                            }
-                        } else if (response.data["code"] == "001") {
-                            self.loading = true
-                            self.dialogError = true
-                        }
-
+                        self.info = response.data["info"]
+                        console.log(response)
+                        self.loading = false
+                        self.visible = true
+                        self.spAvator = response.data["spAvator"]
+                        self.spName = response.data["spName"]
                     })
                     .catch(function(error) {
                         console.log(error);
                     });
             },
             collection: function() {
-                var self = this;
-                axios.get('https://www.xueyituanchina.cn/xytuan/api/my/fav?favId=' + this.info["id"] + "&favType=3&uid=" + this.uid)
+                axios.get('https://www.xueyituanchina.cn/xytuan/api/my/fav?favId=' + this.info["id"] + "&favType=3")
                     .then(function(response) {
-                        self.isHiddle = "visible"
-                        self.dialogVisible = true;
+                        console.log(response)
+                        this.dialogVisible = true;
                     })
                     .catch(function(error) {
                         console.log(error);
