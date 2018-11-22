@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<!-- http://doc.vue-js.com/ -->
+<!-- https://element.faas.ele.me/#/zh-CN/component/layout -->
+
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body style="padding: 0; background: white;">
+    <div id="app" style="background: white;" v-loading="loading">
+        <p v-text="info['title']" class="title"></p>
+
+        <div class="title_tip" v-text="tip_local"></div>
+        <div class="content" v-text="'地址: '+info['addr']" v-if="visible"></div>
+
+        <div class="title_tip" v-text="tip_time"></div>
+        <div class="content" v-if="visible" v-text="'时间: '+info['beginTime'] + ' 至 '+info['endTime']"></div>
+
+        <div class="title_tip" v-text="tip_desc"></div>
+        <div class="content desc" v-text="info['description']"></div>
+
+        <div class="title_tip" v-text="tip_phone"></div>
+        <div class="content desc" v-text="info['phone']"></div>
+
+        <div class="title_tip" v-text="tip_pic"></div>
+        <div class="pic">
+            <div v-for="todo in info['posterList']">
+                <img class="big_img" v-bind:src="todo" />
+            </div>
+        </div>
+        <div class="title_tip" v-text="tip_enter"></div>
+        <el-input v-model="input_name" placeholder="请输入报名联系人姓名" style="margin-top: 15px;"></el-input>
+        <el-input v-model="input_phone" placeholder="请输入报名电话" style="margin-top: 15px;"></el-input>
+        <el-button @click="enter(info['id'])" type="primary" round style="margin-top: 20px;margin-bottom: 20px;width: 100%;">报名提交</el-button>
+
+        <el-dialog style="text-align: center;" title="提示" :visible.sync="dialogOk" width="70%">
+            <span style="font-weight: bold;" v-text="dialog_ok_tip"></span>
+            <p>
+                <el-button @click="dialogOk = false">确 定</el-button>
+            </p>
+        </el-dialog>
+    </div>
+
+</body>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+<!-- import JavaScript -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                visible: false,
+                dialog_ok_tip: "报名成功",
+                dialogOk: false,
+                id: "",
+                loading: true,
+                info: {},
+                tip_local: "",
+                tip_time: "",
+                tip_phone: "",
+                tip_desc: "",
+                tip_pic: "",
+                tip_enter: "",
+                input_name: "",
+                input_phone: ""
+            }
+        },
+        created: function() {
+            this.GetRequest();
+        },
+        methods: {
+            enter: function(id) {
+                let self = this
+                let url = "https://www.xueyituanchina.cn/xytuan/api/activity/sign"
+                var params = new URLSearchParams();
+                params.append('act_id', id);
+                params.append('phone', this.input_phone);
+                params.append('name', this.input_name);
+                axios.post(url, params).then(function(response) {
+                    self.dialogOk = true
+                    console.log(response.data)
+                }).catch(function(error) {
+
+                });
+            },
+            GetRequest: function() {
+                var url = location.search;
+                var theRequest = new Object();
+                if (url.indexOf("?") != -1) {
+                    var str = url.substr(1);
+                    strs = str.split("&");
+                    for (var i = 0; i < strs.length; i++) {
+                        theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                    }
+                }
+                this.id = theRequest["id"]
+                this.getJson(this.id);
+            },
+            phoneCall: function() {
+                window.location.href = "tel:" + this.shop["phone"]
+            },
+            getJson: function(id) {
+                var self = this;
+
+                let url = "https://www.xueyituanchina.cn/xytuan/api/activity/acitivity?id=" + id
+                axios.get(url)
+                    .then(function(response) {
+                        self.loading = false
+                        self.info = response.data.info
+                        self.tip_local = "活动地址："
+                        self.tip_time = "活动时间：",
+                            self.tip_enter = "我要报名：",
+                            self.tip_phone = "活动主办人：",
+                            self.tip_desc = "活动详情：",
+                            self.tip_pic = "活动图片："
+                        console.log(self.info)
+                    })
+                    .catch(function(error) {
+                        console.log(error);
+                    });
+            }
+        }
+    })
+</script>
+
+<style>
+    .title {
+        margin-left: 15px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+    
+    .title_tip {
+        margin-left: 15px;
+        font-size: 16px;
+        color: #666666;
+        margin-top: 30px;
+        font-weight: bold;
+    }
+    
+    .content {
+        margin-top: 5px;
+        margin-left: 15px;
+        font-size: 16px;
+        color: #999999;
+    }
+    
+    .desc {
+        line-height: 22px;
+        margin-left: 10px;
+        margin-right: 10px;
+        text-indent: 1em;
+        letter-spacing: 2px;
+    }
+    
+    .big_img {
+        width: 100%;
+        margin-top: 15px;
+        height: 200px;
+    }
+</style>

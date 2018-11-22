@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<!-- http://doc.vue-js.com/ -->
+	<!-- https://element.faas.ele.me/#/zh-CN/component/layout -->
+
+	<head>
+		<meta http-equiv="content-type" content="text/html" charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+		<link rel="stylesheet" type="text/css" href="../css/register.css" />
+	</head>
+
+	<body class="">
+		<div id="app">
+			<header>
+				<div id="banner" class="banner well ">
+					<img src="../img/pin.png" class="pin pull_right">
+					<div class="banner_inner">
+						<div class="text_t">
+							<span style="font-weight: bold;margin-left: 10px;">学艺团</span>
+							<div class="vip no">&nbsp;</div>
+						</div>
+						<div class="text_b">让智慧之光照亮每一个家庭！</div>
+					</div>
+				</div>
+			</header>
+			<div class="space-10"></div>
+			<section>
+				<div class="frame well">
+					<div class="frame_inner">
+
+						<h1 class="no_margin align_center">“只差一步”</h1>
+						<div class="space-13"></div>
+						<h2 class="no_margin align_center">就可以学习大量免费课程</h2>
+						<div class="space-4"></div>
+						<!--<h4 class="no_margin align_center dark">首次<span class="orange">登录密码</span>为您手机号后6位</h4>-->
+						<div class="space-22"></div>
+						<div class="align_center">
+							<img class="pull_left" src="../img/01.jpg" alt="读书从未如此简单" style="width: 31%;">
+							<img src="../img/02.jpg" alt="读书使您的生活更幸福" style="width: 31%;">
+							<img class="pull_right" src="../img/03.jpg" alt="读书也可以这么任性" style="width: 31%;">
+						</div>
+						<div class="space-30"></div>
+						<button @click="downloadapk" class="">下载APP</button>
+					</div>
+				</div>
+			</section>
+		</div>
+	</body>
+	<!-- import Vue before Element -->
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<!-- import JavaScript -->
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+	<script>
+		new Vue({
+			el: '#app',
+			data: function() {
+				return {
+					
+				}
+			},
+			methods: {
+				
+				downloadapk: function() {
+					this.isAndroid();
+				},
+				isAndroid: function() {
+					var u = navigator.userAgent,
+						app = navigator.appVersion;
+					var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Linux') > -1; //g
+					var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+					console.log(u)
+					if(isAndroid) {
+						window.open("http://xueyituan.oss-cn-beijing.aliyuncs.com/apk/app-android.apk")
+					}
+					if(isIOS) {
+						window.open("https://itunes.apple.com/cn/app/%E5%AD%A6%E8%89%BA%E5%9B%A2/id1440920640?mt=8")
+					}
+				}
+			}
+		})
+	</script>
+	<style type="text/css">
+
+	</style>
+
+</html>
